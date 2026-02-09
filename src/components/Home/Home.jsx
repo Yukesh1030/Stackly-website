@@ -73,10 +73,12 @@ export const Home = () => {
                 <section className="welcome-msg">
                     <h1>{text1}<span className='stackly-span'>{text2}</span></h1>
                     <p>{text3}</p>
-                    <button className={`fade-in-btn ${showButton ? 'visible' : ''}`}>Let's Start</button>
+                    <Link to="/service">
+                        <button className={`fade-in-btn ${showButton ? 'visible' : ''}`}>Let's Start</button>
+                    </Link>
 
                     <div className="hero-content-extra">
-                        </div>
+                    </div>
                 </section>
 
 

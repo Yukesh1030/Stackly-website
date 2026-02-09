@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 import { Navbar } from './components/Navbar/Navbar';
+import ScrollToTop from './components/ScrollToTop';
 import { Home } from './components/Home/Home';
 import { Footer } from './components/Footer/Footer';
 import Career from './components/Career/Career';
@@ -16,6 +17,7 @@ function App() {
     <>
       <div className="app-background">
         <BrowserRouter>
+          <ScrollToTop />
           <Navbar />
           <Routes>
             <Route path='/home' element={<Home />} />

@@ -77,7 +77,7 @@ const ParticleBackground = () => {
                             default: "bounce",
                         },
                         random: false,
-                        speed: 2,
+                        speed: 1.5,
                         straight: false,
                     },
                     number: {
@@ -111,4 +111,4 @@ const ParticleBackground = () => {
     );
 };
 
-export default ParticleBackground;
+export default React.memo(ParticleBackground);

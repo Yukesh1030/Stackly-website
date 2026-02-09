@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import './JobList.css';
 import { JOBS_DATA } from '../../data/jobs';
 
-const JobCard = ({ job }) => {
+const JobCard = ({ job, isSaved, onToggleSave }) => {
     const navigate = useNavigate();
 
     const handleJobClick = () => {
@@ -29,8 +29,15 @@ const JobCard = ({ job }) => {
                 </div>
             </div>
             <div className="job-actions">
-                <button className="save-btn" aria-label="Save job">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <button
+                    className={`save-btn ${isSaved ? 'saved' : ''}`}
+                    aria-label={isSaved ? "Unsave job" : "Save job"}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        onToggleSave(job.id);
+                    }}
+                >
+                    <svg viewBox="0 0 24 24" fill={isSaved ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
                     </svg>
                 </button>
@@ -39,13 +46,19 @@ const JobCard = ({ job }) => {
     );
 };
 
-const FilterSection = ({ title, options, type = 'checkbox' }) => (
+const FilterSection = ({ title, options, selected = [], onChange, type = 'checkbox' }) => (
     <div className="filter-section">
         <h4 className="filter-title">{title}</h4>
         <div className="filter-options">
             {options.map((opt, i) => (
                 <label key={i} className="filter-option">
-                    <input type={type} name={title} />
+                    <input
+                        type={type}
+                        name={title}
+                        value={opt}
+                        checked={type === 'radio' ? selected === opt : (Array.isArray(selected) && selected.includes(opt))}
+                        onChange={(e) => onChange(title, opt, e.target.checked)}
+                    />
                     <span className="checkmark"></span>
                     <span className="label-text">{opt}</span>
                 </label>
@@ -57,6 +70,101 @@ const FilterSection = ({ title, options, type = 'checkbox' }) => (
 
 const JobList = () => {
     const [searchTerm, setSearchTerm] = useState('');
+    const [filters, setFilters] = useState({
+        sort: 'Relevance',
+        technologies: [],
+        teams: [],
+        type: [],
+        location: ''
+    });
+    const [savedJobs, setSavedJobs] = useState([]);
+
+    const toggleSaveJob = (jobId) => {
+        setSavedJobs(prev =>
+            prev.includes(jobId)
+                ? prev.filter(id => id !== jobId)
+                : [...prev, jobId]
+        );
+    };
+
+    const handleFilterChange = (category, value, isChecked) => {
+        setFilters(prev => {
+            if (category === 'Sort by') {
+                return { ...prev, sort: value };
+            }
+            if (category === 'technologies' || category === 'Technologies') {
+                const current = prev.technologies;
+                return {
+                    ...prev,
+                    technologies: isChecked ? [...current, value] : current.filter(item => item !== value)
+                };
+            }
+            if (category === 'teams' || category === 'Teams') {
+                const current = prev.teams;
+                return {
+                    ...prev,
+                    teams: isChecked ? [...current, value] : current.filter(item => item !== value)
+                };
+            }
+            if (category === 'Employment type') {
+                const current = prev.type;
+                return {
+                    ...prev,
+                    type: isChecked ? [...current, value] : current.filter(item => item !== value)
+                };
+            }
+            return prev;
+        });
+    };
+
+    const handleLocationChange = (e) => {
+        setFilters(prev => ({ ...prev, location: e.target.value }));
+    };
+
+    const clearFilters = () => {
+        setFilters({
+            sort: 'Relevance',
+            technologies: [],
+            teams: [],
+            type: [],
+            location: ''
+        });
+        setSearchTerm('');
+    };
+
+    // Filter Logic
+    const filteredJobs = JOBS_DATA.filter(job => {
+        // Search Term
+        const searchUpper = searchTerm.toUpperCase();
+        const matchesSearch =
+            !searchTerm ||
+            job.title.toUpperCase().includes(searchUpper) ||
+            job.description.toUpperCase().includes(searchUpper) ||
+            job.tags.some(tag => tag.toUpperCase().includes(searchUpper)) ||
+            job.category.toUpperCase().includes(searchUpper);
+
+        // Technologies Filter (match any selected)
+        const matchesTech =
+            filters.technologies.length === 0 ||
+            filters.technologies.some(tech => job.tags.map(t => t.toLowerCase()).includes(tech.toLowerCase()));
+
+        // Teams Filter (match any selected)
+        const matchesTeams =
+            filters.teams.length === 0 ||
+            filters.teams.some(team => job.teams.includes(team));
+
+        // Employment Type Filter
+        const matchesType =
+            filters.type.length === 0 ||
+            ((job.type && filters.type.includes(job.type)));
+
+        // Location Filter
+        const matchesLocation =
+            !filters.location ||
+            job.locations.some(loc => loc.toLowerCase().includes(filters.location.toLowerCase()));
+
+        return matchesSearch && matchesTech && matchesTeams && matchesType && matchesLocation;
+    });
 
     return (
         <div className="job-list-container" id="job-list">
@@ -84,7 +192,7 @@ const JobList = () => {
                         <button className="hide-filters">
                             <span className="icon">≡</span> Hide filters
                         </button>
-                        <button className="clear-filters">Clear filters</button>
+                        <button className="clear-filters" onClick={clearFilters}>Clear filters</button>
                     </div>
 
                     <div className="active-filters">
@@ -96,36 +204,63 @@ const JobList = () => {
                             title="Sort by"
                             options={['Relevance', 'Newest']}
                             type="radio"
+                            selected={filters.sort}
+                            onChange={handleFilterChange}
                         />
                         <FilterSection
                             title="Technologies"
-                            options={['Facebook', 'Messenger', 'Instagram', 'Whatsapp', 'Meta Quest']}
+                            options={['React', 'Node', 'Python', 'Java', 'C++']}
+                            selected={filters.technologies}
+                            onChange={handleFilterChange}
                         />
                         <FilterSection
                             title="Teams"
-                            options={['Advertising Technology', 'Artificial Intelligence', 'Business Development & Partnerships', 'Communications & Public Policy']}
+                            options={['Software Engineering', 'Data Science', 'Cloud Engineering', 'UI/UX Design', 'AI Research']}
+                            selected={filters.teams}
+                            onChange={handleFilterChange}
                         />
                         <FilterSection
                             title="Employment type"
                             options={['Full time employment', 'Internship', 'Short term employment']}
+                            selected={filters.type}
+                            onChange={handleFilterChange}
                         />
                         <div className="filter-section">
                             <h4 className="filter-title">Location</h4>
-                            <input type="text" className="location-input" placeholder="Search location" />
+                            <input
+                                type="text"
+                                className="location-input"
+                                placeholder="Search location"
+                                value={filters.location}
+                                onChange={handleLocationChange}
+                            />
                         </div>
                     </div>
                 </aside>
 
                 <main className="jobs-display">
-                    <div className="results-count">{JOBS_DATA.length} Items</div>
+                    <div className="results-count">{filteredJobs.length} Items</div>
                     <div className="jobs-grid">
-                        {JOBS_DATA.map(job => (
-                            <JobCard key={job.id} job={job} />
-                        ))}
+                        {filteredJobs.length > 0 ? (
+                            filteredJobs.map(job => (
+                                <JobCard
+                                    key={job.id}
+                                    job={job}
+                                    isSaved={savedJobs.includes(job.id)}
+                                    onToggleSave={toggleSaveJob}
+                                />
+                            ))
+                        ) : (
+                            <div className="no-results">
+                                <p>No jobs found matching your criteria.</p>
+                            </div>
+                        )}
                     </div>
-                    <div className="pagination">
-                        <span>&lt; Page 1 of 5 &gt;</span>
-                    </div>
+                    {filteredJobs.length > 0 && (
+                        <div className="pagination">
+                            <span>&lt; Page 1 of 5 &gt;</span>
+                        </div>
+                    )}
                 </main>
             </div>
         </div>
