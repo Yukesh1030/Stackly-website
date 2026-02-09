@@ -30,7 +30,7 @@ export const Service = () => {
         },
         {
             id: 5,
-            title: 'Cybersecuriti',
+            title: 'Cybersecurity',
             description: 'Protect your digital assets with our comprehensive security audits and solutions.',
             img: '/cyber-img.jpg'
         },
