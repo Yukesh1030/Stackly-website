@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './Footer.css';
 import { FaFacebookF, FaLinkedinIn, FaInstagram, FaTwitter, FaGoogle, FaYoutube } from 'react-icons/fa';
 import { BiUpArrowAlt } from 'react-icons/bi';
@@ -27,13 +28,15 @@ export const Footer = () => {
                 <div className="footer-top">
                     <div className="footer-left">
                         <div className="brand-logo">
-                            <img src="/HeroLogo.svg" alt="Stackly" className="footer-logo" />
-                            <span>STACKLY</span>
+                            <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none', color: 'inherit' }}>
+                                <img src="/HeroLogo.svg" alt="Stackly" className="footer-logo" />
+                                <span>STACKLY</span>
+                            </Link>
                         </div>
 
                         <h2 className="footer-cta">
                             Have a project in mind?<br />
-                            <span className="highlight-text">Let’s get to work.</span>
+                            <Link to="/contact" className="highlight-text" style={{ textDecoration: 'none' }}>Let’s get to work.</Link>
                         </h2>
 
                         <div className="contact-buttons">
@@ -56,10 +59,10 @@ export const Footer = () => {
                             <div className="useful-links">
                                 <h3>USEFUL LINKS</h3>
                                 <ul>
-                                    <li><a href="#">Careers</a></li>
-                                    <li><a href="#">About</a></li>
-                                    <li><a href="#">Services</a></li>
-                                    <li><a href="#">Contact</a></li>
+                                    <li><Link to="/career">Careers</Link></li>
+                                    <li><Link to="/about">About</Link></li>
+                                    <li><Link to="/service">Services</Link></li>
+                                    <li><Link to="/contact">Contact</Link></li>
                                 </ul>
                             </div>
 
@@ -79,7 +82,7 @@ export const Footer = () => {
                 </div>
 
                 <div className="footer-bottom">
-                    <p>© 2025 Copyright Stackly. All Rights Reserved. Devloped By Yukesh G</p>
+                    <p>© 2026 Copyright Stackly. All Rights Reserved. Devloped By Yukesh G</p>
                 </div>
             </div>
 

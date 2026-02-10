@@ -4,6 +4,14 @@
     min-height: 100vh;
     overflow-x: hidden;
     background: #ffffff;
+    transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out, filter 0.8s ease-in-out;
+}
+
+.home-container.home-exiting {
+    transform: scale(1.5);
+    opacity: 0;
+    filter: blur(10px);
+    pointer-events: none;
 }
 
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ParticleBackground from '../ParticleBackground';
 import './Home.css';
 
@@ -104,8 +104,19 @@ export const Home = () => {
         }
     };
 
+    const [isExiting, setIsExiting] = useState(false);
+    const navigate = useNavigate();
+
+    const handleStart = (e) => {
+        e.preventDefault();
+        setIsExiting(true);
+        setTimeout(() => {
+            navigate('/about');
+        }, 800); // Duration matches CSS transition
+    };
+
     return (
-        <div className="home-container">
+        <div className={`home-container ${isExiting ? 'home-exiting' : ''}`}>
             <ParticleBackground />
 
             <audio ref={audioRef} loop>
@@ -116,9 +127,9 @@ export const Home = () => {
                 <section className="welcome-msg">
                     <h1>{text1}<span className='stackly-span'>{text2}</span></h1>
                     <p>{text3}</p>
-                    <Link to="/service">
+                    <a href="/about" onClick={handleStart}>
                         <button className={`fade-in-btn ${showButton ? 'visible' : ''}`}>Let's Start</button>
-                    </Link>
+                    </a>
 
                     <div className="hero-content-extra">
                     </div>
