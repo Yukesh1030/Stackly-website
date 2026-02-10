@@ -67,10 +67,8 @@
 
 .about-page-title-span {
     font-size: 80px;
-    background: linear-gradient(to right, indigo, blue, purple, pink);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #0064e0;
+
 }
 
 
