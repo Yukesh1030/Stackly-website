@@ -42,6 +42,45 @@ export const Service = () => {
         }
     ];
 
+    const processes = [
+        {
+            id: 1,
+            title: 'Research',
+            description: "Research is the foundation of new technologies, innovative products, and improvements in services that enhance Stackly's competitive advantage. This strategy outlines how Stackly can leverage R&D to foster growth, enhance market positioning, and drive customer value.",
+            img: '/soft-img.png'
+        },
+        {
+            id: 2,
+            title: 'Planning',
+            description: "Research is the foundation of new technologies, innovative products, and improvements in services that enhance Stackly's competitive advantage. This strategy outlines how Stackly can leverage R&D to foster growth, enhance market positioning, and drive customer value.",
+            img: '/soft-img.png'
+        },
+        {
+            id: 3,
+            title: 'Development',
+            description: "Research is the foundation of new technologies, innovative products, and improvements in services that enhance Stackly's competitive advantage. This strategy outlines how Stackly can leverage R&D to foster growth, enhance market positioning, and drive customer value.",
+            img: '/soft-img.png'
+        },
+        {
+            id: 4,
+            title: 'Testing',
+            description: "Research is the foundation of new technologies, innovative products, and improvements in services that enhance Stackly's competitive advantage. This strategy outlines how Stackly can leverage R&D to foster growth, enhance market positioning, and drive customer value.",
+            img: '/soft-img.png'
+        },
+        {
+            id: 5,
+            title: 'Deployment',
+            description: "Research is the foundation of new technologies, innovative products, and improvements in services that enhance Stackly's competitive advantage. This strategy outlines how Stackly can leverage R&D to foster growth, enhance market positioning, and drive customer value.",
+            img: '/soft-img.png'
+        },
+        {
+            id: 6,
+            title: 'Maintenance',
+            description: "Research is the foundation of new technologies, innovative products, and improvements in services that enhance Stackly's competitive advantage. This strategy outlines how Stackly can leverage R&D to foster growth, enhance market positioning, and drive customer value.",
+            img: '/soft-img.png'
+        }
+    ];
+
     return (
         <div className="service-page">
             <div className="service-container">
@@ -62,6 +101,28 @@ export const Service = () => {
                     ))}
                 </div>
             </div>
+
+
+        <div className="service-container">
+                <div className="service-header">
+                    <h1>OUR <span className="highlight">PROCESSES</span></h1>
+                    <p>Empowering your business with innovative technology solutions.</p>
+                </div>
+
+                <div className="services-grid">
+                    {processes.map(service => (
+                        <div className="service-card" key={service.id}>
+                            <div className="service-icon">
+                                <img src={service.img} alt={service.title} />
+                            </div>
+                            <h3>{service.title}</h3>
+                            <p>{service.description}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+
         </div>
     )
 }

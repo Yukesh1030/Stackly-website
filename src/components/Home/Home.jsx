@@ -66,9 +66,52 @@ export const Home = () => {
         };
     }, []);
 
+    const [isPlaying, setIsPlaying] = useState(false);
+    const audioRef = React.useRef(null);
+
+    useEffect(() => {
+        // Attempt autoplay on mount
+        if (audioRef.current) {
+            audioRef.current.volume = 0.5; // Set volume to 50%
+            const playPromise = audioRef.current.play();
+
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    setIsPlaying(true);
+                }).catch(error => {
+                    console.log("Autoplay prevented:", error);
+                    setIsPlaying(false);
+                });
+            }
+        }
+
+        return () => {
+            if (audioRef.current) {
+                audioRef.current.pause();
+                audioRef.current.currentTime = 0;
+            }
+        };
+    }, []);
+
+    const toggleMusic = () => {
+        if (audioRef.current) {
+            if (isPlaying) {
+                audioRef.current.pause();
+            } else {
+                audioRef.current.play();
+            }
+            setIsPlaying(!isPlaying);
+        }
+    };
+
     return (
         <div className="home-container">
             <ParticleBackground />
+
+            <audio ref={audioRef} loop>
+                <source src="/musics/Perplexity Comet Zen Soundtrack(MP3_160K).mp3" type="audio/mp3" />
+            </audio>
+
             <div className="content-wrapper">
                 <section className="welcome-msg">
                     <h1>{text1}<span className='stackly-span'>{text2}</span></h1>
