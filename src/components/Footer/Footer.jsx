@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Footer.css';
-import { FaFacebookF, FaLinkedinIn, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { FaFacebookF, FaLinkedinIn, FaInstagram, FaTwitter, FaGoogle, FaYoutube } from 'react-icons/fa';
 import { BiUpArrowAlt } from 'react-icons/bi';
 
 export const Footer = () => {
@@ -44,10 +44,12 @@ export const Footer = () => {
 
                     <div className="footer-right">
                         <div className="footer-socials">
-                            <a href="#" aria-label="Facebook"><FaFacebookF /> Facebook</a>
-                            <a href="#" aria-label="LinkedIn"><FaLinkedinIn /> LinkedIn</a>
-                            <a href="#" aria-label="Instagram"><FaInstagram /> Instagram</a>
-                            <a href="#" aria-label="Twitter"><FaTwitter /> Twitter</a>
+                            <a href="https://x.com/the_stackly?s=11&t=sqo7icv4xne_EryFEezXeQ" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)"><FaTwitter /> X</a>
+                            <a href="https://www.linkedin.com/company/the-stackly/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><FaLinkedinIn /> LinkedIn</a>
+                            <a href="https://www.instagram.com/the_stackly?igsh=MXM4aWJicXllaHlkZA==" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><FaInstagram /> Instagram</a>
+                            <a href="https://www.facebook.com/share/158qV6By6a/" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><FaFacebookF /> Facebook</a>
+                            <a href="https://g.co/kgs/wf4P2qQ" target="_blank" rel="noopener noreferrer" aria-label="Google Reviews"><FaGoogle /> Google</a>
+                            <a href="https://youtu.be/TjXCSON6KBY?si=_uW-gqnZ5HVyTP-g" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><FaYoutube /> YouTube</a>
                         </div>
 
                         <div className="footer-links-section">
