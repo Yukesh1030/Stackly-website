@@ -9,6 +9,16 @@ export const ApplyJob = () => {
     const [showTags, setShowTags] = useState(false);
     const [job, setJob] = useState(null);
 
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        resume: null,
+        coverLetter: ''
+    });
+
+    const [errors, setErrors] = useState({});
+
     useEffect(() => {
         if (id) {
             const foundJob = JOBS_DATA.find(j => j.id === parseInt(id));
@@ -41,15 +51,7 @@ export const ApplyJob = () => {
         }
     };
 
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        phone: '',
-        resume: null,
-        coverLetter: ''
-    });
 
-    const [errors, setErrors] = useState({});
 
     const validateForm = () => {
         let newErrors = {};
